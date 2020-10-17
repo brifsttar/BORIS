@@ -4986,6 +4986,19 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                                     idx3,
                                     QTableWidgetItem(self.pj[OBSERVATIONS][obsId][PLOT_DATA][idx2][DATA_PLOT_FIELDS[idx3]])
                                 )
+            # overlay data
+            if OVERLAY_DATA in self.pj[OBSERVATIONS][obsId]:
+                if self.pj[OBSERVATIONS][obsId][OVERLAY_DATA]:
+
+                    observationWindow.tw_overlay_files.setRowCount(0)
+                    for idx2 in sorted_keys(self.pj[OBSERVATIONS][obsId][OVERLAY_DATA]):
+                        observationWindow.tw_overlay_files.setRowCount(observationWindow.tw_overlay_files.rowCount() + 1)
+                        for idx3 in OVERLAY_DATA_FIELDS:
+                            observationWindow.tw_overlay_files.setItem(
+                                observationWindow.tw_overlay_files.rowCount() - 1,
+                                idx3,
+                                QTableWidgetItem(self.pj[OBSERVATIONS][obsId][OVERLAY_DATA][idx2][OVERLAY_DATA_FIELDS[idx3]])
+                            )
 
             # disabled due to problem when video goes back
             # if CLOSE_BEHAVIORS_BETWEEN_VIDEOS in self.pj[OBSERVATIONS][obsId]:
@@ -5076,6 +5089,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                             self.pj[OBSERVATIONS][new_obs_id][PLOT_DATA][str(
                                 row)][DATA_PLOT_FIELDS[idx2]] = observationWindow.tw_data_files.item(
                                     row, idx2).text()
+
+            # overlay data
+            if observationWindow.tw_overlay_files.rowCount():
+                self.pj[OBSERVATIONS][new_obs_id][OVERLAY_DATA] = {}
+                for row in range(observationWindow.tw_overlay_files.rowCount()):
+                    self.pj[OBSERVATIONS][new_obs_id][OVERLAY_DATA][str(row)] = {}
+                    for idx2 in OVERLAY_DATA_FIELDS:
+                        self.pj[OBSERVATIONS][new_obs_id][OVERLAY_DATA][str(row)][OVERLAY_DATA_FIELDS[idx2]] = \
+                            observationWindow.tw_overlay_files.item(row, idx2).text()
 
 
             # Close current behaviors between video

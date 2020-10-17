@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'observation.ui'
+# Form implementation generated from reading ui file 'boris\observation.ui'
 #
-# Created by: PyQt5 UI code generator 5.11.3
+# Created by: PyQt5 UI code generator 5.13.0
 #
 # WARNING! All changes made in this file will be lost!
 
+
 from PyQt5 import QtCore, QtGui, QtWidgets
+
 
 class Ui_Form(object):
     def setupUi(self, Form):
@@ -250,6 +252,57 @@ class Ui_Form(object):
         self.verticalLayout_16.addItem(spacerItem4)
         self.verticalLayout_17.addWidget(self.splitter_5)
         self.tabWidget.addTab(self.tab_data_files, "")
+        self.tab_overlay_files = QtWidgets.QWidget()
+        self.tab_overlay_files.setEnabled(True)
+        self.tab_overlay_files.setObjectName("tab_overlay_files")
+        self.verticalLayout_27 = QtWidgets.QVBoxLayout(self.tab_overlay_files)
+        self.verticalLayout_27.setObjectName("verticalLayout_27")
+        self.splitter_6 = QtWidgets.QSplitter(self.tab_overlay_files)
+        self.splitter_6.setOrientation(QtCore.Qt.Vertical)
+        self.splitter_6.setObjectName("splitter_6")
+        self.layoutWidget_4 = QtWidgets.QWidget(self.splitter_6)
+        self.layoutWidget_4.setObjectName("layoutWidget_4")
+        self.verticalLayout_20 = QtWidgets.QVBoxLayout(self.layoutWidget_4)
+        self.verticalLayout_20.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_20.setObjectName("verticalLayout_20")
+        self.label_11 = QtWidgets.QLabel(self.layoutWidget_4)
+        self.label_11.setObjectName("label_11")
+        self.verticalLayout_20.addWidget(self.label_11)
+        self.tw_overlay_files = QtWidgets.QTableWidget(self.layoutWidget_4)
+        self.tw_overlay_files.setSelectionMode(QtWidgets.QAbstractItemView.MultiSelection)
+        self.tw_overlay_files.setObjectName("tw_overlay_files")
+        self.tw_overlay_files.setColumnCount(4)
+        self.tw_overlay_files.setRowCount(0)
+        item = QtWidgets.QTableWidgetItem()
+        self.tw_overlay_files.setHorizontalHeaderItem(0, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tw_overlay_files.setHorizontalHeaderItem(1, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tw_overlay_files.setHorizontalHeaderItem(2, item)
+        item = QtWidgets.QTableWidgetItem()
+        self.tw_overlay_files.setHorizontalHeaderItem(3, item)
+        self.tw_overlay_files.horizontalHeader().setDefaultSectionSize(150)
+        self.verticalLayout_20.addWidget(self.tw_overlay_files)
+        self.layoutWidget_5 = QtWidgets.QWidget(self.splitter_6)
+        self.layoutWidget_5.setObjectName("layoutWidget_5")
+        self.verticalLayout_21 = QtWidgets.QVBoxLayout(self.layoutWidget_5)
+        self.verticalLayout_21.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_21.setObjectName("verticalLayout_21")
+        self.horizontalLayout_9 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_9.setObjectName("horizontalLayout_9")
+        self.pb_add_overlay_file = QtWidgets.QPushButton(self.layoutWidget_5)
+        self.pb_add_overlay_file.setObjectName("pb_add_overlay_file")
+        self.horizontalLayout_9.addWidget(self.pb_add_overlay_file)
+        self.pb_remove_overlay_file = QtWidgets.QPushButton(self.layoutWidget_5)
+        self.pb_remove_overlay_file.setObjectName("pb_remove_overlay_file")
+        self.horizontalLayout_9.addWidget(self.pb_remove_overlay_file)
+        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_9.addItem(spacerItem5)
+        self.verticalLayout_21.addLayout(self.horizontalLayout_9)
+        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_21.addItem(spacerItem6)
+        self.verticalLayout_27.addWidget(self.splitter_6)
+        self.tabWidget.addTab(self.tab_overlay_files, "")
         self.verticalLayout_14.addWidget(self.tabWidget)
         self.tabProjectType.addTab(self.tabVideo, "")
         self.tabLive = QtWidgets.QWidget()
@@ -270,21 +323,21 @@ class Ui_Form(object):
         self.label_6 = QtWidgets.QLabel(self.tabLive)
         self.label_6.setObjectName("label_6")
         self.horizontalLayout_8.addWidget(self.label_6)
-        spacerItem5 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout_8.addItem(spacerItem5)
+        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout_8.addItem(spacerItem7)
         self.verticalLayout_8.addLayout(self.horizontalLayout_8)
         self.cb_start_from_current_time = QtWidgets.QCheckBox(self.tabLive)
         self.cb_start_from_current_time.setObjectName("cb_start_from_current_time")
         self.verticalLayout_8.addWidget(self.cb_start_from_current_time)
-        spacerItem6 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-        self.verticalLayout_8.addItem(spacerItem6)
+        spacerItem8 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.verticalLayout_8.addItem(spacerItem8)
         self.verticalLayout_10.addLayout(self.verticalLayout_8)
         self.tabProjectType.addTab(self.tabLive, "")
         self.verticalLayout_9.addWidget(self.tabProjectType)
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
-        spacerItem7 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem7)
+        spacerItem9 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.horizontalLayout.addItem(spacerItem9)
         self.pbCancel = QtWidgets.QPushButton(self.layoutWidget2)
         self.pbCancel.setObjectName("pbCancel")
         self.horizontalLayout.addWidget(self.pbCancel)
@@ -299,7 +352,7 @@ class Ui_Form(object):
 
         self.retranslateUi(Form)
         self.tabProjectType.setCurrentIndex(0)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(2)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
@@ -366,6 +419,18 @@ class Ui_Form(object):
         self.pb_view_data_head.setText(_translate("Form", "View first rows"))
         self.pb_plot_data.setText(_translate("Form", "Show plot"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_data_files), _translate("Form", "Data files"))
+        self.label_11.setText(_translate("Form", "Data files to overlay on video"))
+        item = self.tw_overlay_files.horizontalHeaderItem(0)
+        item.setText(_translate("Form", "Path"))
+        item = self.tw_overlay_files.horizontalHeaderItem(1)
+        item.setText(_translate("Form", "Timestamp column"))
+        item = self.tw_overlay_files.horizontalHeaderItem(2)
+        item.setText(_translate("Form", "Coordinates columns"))
+        item = self.tw_overlay_files.horizontalHeaderItem(3)
+        item.setText(_translate("Form", "Color"))
+        self.pb_add_overlay_file.setText(_translate("Form", "Add data file"))
+        self.pb_remove_overlay_file.setText(_translate("Form", "Remove selected data file"))
+        self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_overlay_files), _translate("Form", "Overlay files"))
         self.tabProjectType.setTabText(self.tabProjectType.indexOf(self.tabVideo), _translate("Form", "Media"))
         self.label_4.setText(_translate("Form", "Scan sampling every"))
         self.label_6.setText(_translate("Form", "seconds"))
@@ -375,3 +440,12 @@ class Ui_Form(object):
         self.pbSave.setText(_translate("Form", "Save"))
         self.pbLaunch.setText(_translate("Form", "Start"))
 
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Form = QtWidgets.QWidget()
+    ui = Ui_Form()
+    ui.setupUi(Form)
+    Form.show()
+    sys.exit(app.exec_())

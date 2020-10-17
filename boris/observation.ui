@@ -194,7 +194,7 @@
            <item>
             <widget class="QTabWidget" name="tabWidget">
              <property name="currentIndex">
-              <number>0</number>
+              <number>2</number>
              </property>
              <widget class="QWidget" name="tab_player_1">
               <attribute name="title">
@@ -484,6 +484,112 @@
                    </item>
                    <item>
                     <spacer name="verticalSpacer_4">
+                     <property name="orientation">
+                      <enum>Qt::Vertical</enum>
+                     </property>
+                     <property name="sizeHint" stdset="0">
+                      <size>
+                       <width>20</width>
+                       <height>40</height>
+                      </size>
+                     </property>
+                    </spacer>
+                   </item>
+                  </layout>
+                 </widget>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+             <widget class="QWidget" name="tab_overlay_files">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
+              <attribute name="title">
+               <string>Overlay files</string>
+              </attribute>
+              <layout class="QVBoxLayout" name="verticalLayout_27">
+               <item>
+                <widget class="QSplitter" name="splitter_6">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <widget class="QWidget" name="layoutWidget_4">
+                  <layout class="QVBoxLayout" name="verticalLayout_20">
+                   <item>
+                    <widget class="QLabel" name="label_11">
+                     <property name="text">
+                      <string>Data files to overlay on video</string>
+                     </property>
+                    </widget>
+                   </item>
+                   <item>
+                    <widget class="QTableWidget" name="tw_overlay_files">
+                     <property name="selectionMode">
+                      <enum>QAbstractItemView::MultiSelection</enum>
+                     </property>
+                     <attribute name="horizontalHeaderDefaultSectionSize">
+                      <number>150</number>
+                     </attribute>
+                     <column>
+                      <property name="text">
+                       <string>Path</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>Timestamp column</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>Coordinates columns</string>
+                      </property>
+                     </column>
+                     <column>
+                      <property name="text">
+                       <string>Color</string>
+                      </property>
+                     </column>
+                    </widget>
+                   </item>
+                  </layout>
+                 </widget>
+                 <widget class="QWidget" name="layoutWidget_5">
+                  <layout class="QVBoxLayout" name="verticalLayout_21">
+                   <item>
+                    <layout class="QHBoxLayout" name="horizontalLayout_9">
+                     <item>
+                      <widget class="QPushButton" name="pb_add_overlay_file">
+                       <property name="text">
+                        <string>Add data file</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <widget class="QPushButton" name="pb_remove_overlay_file">
+                       <property name="text">
+                        <string>Remove selected data file</string>
+                       </property>
+                      </widget>
+                     </item>
+                     <item>
+                      <spacer name="horizontalSpacer_9">
+                       <property name="orientation">
+                        <enum>Qt::Horizontal</enum>
+                       </property>
+                       <property name="sizeHint" stdset="0">
+                        <size>
+                         <width>40</width>
+                         <height>20</height>
+                        </size>
+                       </property>
+                      </spacer>
+                     </item>
+                    </layout>
+                   </item>
+                   <item>
+                    <spacer name="verticalSpacer_6">
                      <property name="orientation">
                       <enum>Qt::Vertical</enum>
                      </property>

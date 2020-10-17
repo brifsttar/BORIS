@@ -124,6 +124,8 @@ class Observation(QDialog, Ui_Form):
         self.pb_view_data_head.clicked.connect(self.view_data_file_head)
         self.pb_plot_data.clicked.connect(self.plot_data_file)
 
+        self.pb_add_overlay_file.clicked.connect(lambda: self.add_overlay_file(flag_path=True))
+
         self.cbVisualizeSpectrogram.clicked.connect(self.extract_wav)
         self.cb_visualize_waveform.clicked.connect(self.extract_wav)
         self.cb_observation_time_interval.clicked.connect(self.limit_time_interval)
@@ -386,6 +388,102 @@ class Observation(QDialog, Ui_Form):
             combobox = QComboBox()
             combobox.addItems(DATA_PLOT_STYLES)
             self.tw_data_files.setCellWidget(self.tw_data_files.rowCount() - 1, PLOT_DATA_PLOTCOLOR_IDX, combobox)
+
+
+    def add_overlay_file(self, flag_path=True):
+        """
+        user select a data file to be overlaid synchronously with media file
+
+        Args:
+            flag_path (bool): True to store path of data file else False
+        """
+
+        # check if project saved
+        if (not flag_path) and (not self.project_file_name):
+            QMessageBox.critical(self, programName, ("It is not possible to add overlay file without full path "
+                                                     "if the project is not saved"))
+            return
+
+        # limit to 1 file
+        if self.tw_overlay_files.rowCount() >= 1:
+            QMessageBox.warning(self, programName, ("It is not yet possible to plot more than 1 external overlay"
+                                                    " sources"
+                                                    "This limitation will be removed in future"))
+            return
+
+        fd = QFileDialog()
+        fd.setDirectory(os.path.expanduser("~") if flag_path else str(Path(self.project_path).parent))
+
+        fn = fd.getOpenFileName(self, "Add data file", "", "All files (*)")
+        file_name = fn[0] if type(fn) is tuple else fn
+
+        if file_name:
+
+            timestamp_column = "1"
+            coord_columns = "2,3"
+
+            # check data file
+            r = utilities.check_txt_file(file_name)  # check_txt_file defined in utilities
+
+            if "error" in r:
+                QMessageBox.critical(self, programName, r["error"])
+                return
+
+            if not r["homogeneous"]:  # not all rows have 2 columns
+                QMessageBox.critical(self, programName, "This file does not contain a constant number of columns")
+                return
+
+            header = utilities.return_file_header(file_name, row_number=10)
+
+            if header:
+                w = dialog.View_overlay_head()
+                w.setWindowTitle(f"Overlay data file: {Path(file_name).name}")
+                #w.setWindowFlags(Qt.WindowStaysOnTopHint)
+
+                w.tw.setColumnCount(r["fields number"])
+                w.tw.setRowCount(len(header))
+
+                for row in range(len(header)):
+                    for col, v in enumerate(header[row].split(r["separator"])):
+                        item = QTableWidgetItem(v)
+                        item.setFlags(Qt.ItemIsEnabled)
+                        w.tw.setItem(row, col, item)
+
+                while True:
+                    flag_ok = True
+                    if w.exec_():
+                        timestamp_column = w.le_ts.text()
+                        coord_columns = w.le_xy.text().replace(" ", "")
+                        for col in coord_columns.split(","):
+                            try:
+                                col_idx = int(col)
+                            except ValueError:
+                                QMessageBox.critical(self, programName, f"<b>{col}</b> does not seem to be a column index")
+                                flag_ok = False
+                                break
+                            if col_idx <= 0 or col_idx > r["fields number"]:
+                                QMessageBox.critical(self, programName, f"<b>{col}</b> is not a valid column index")
+                                flag_ok = False
+                                break
+                        if flag_ok:
+                            break
+                    else:
+                        return
+
+                else:
+                    return
+
+            else:
+                return # problem with header
+
+            self.tw_overlay_files.setRowCount(self.tw_overlay_files.rowCount() + 1)
+            self.tw_overlay_files.setItem(0, 0, QTableWidgetItem(file_name))
+            self.tw_overlay_files.setItem(0, 1, QTableWidgetItem(timestamp_column))
+            self.tw_overlay_files.setItem(0, 2, QTableWidgetItem(coord_columns))
+            self.tw_overlay_files.setItem(0, 3, QTableWidgetItem("red"))
+
+            if not flag_path:
+                file_name = str(Path(file_name).name)
 
 
     def view_data_file_head(self):

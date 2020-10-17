@@ -782,6 +782,53 @@ class View_data_head(QDialog):
         self.resize(540, 640)
 
 
+class View_overlay_head(QDialog):
+    """
+    widget for visualizing first rows of data overlay file
+    """
+
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("")
+
+        vbox = QVBoxLayout()
+
+        self.lb = QLabel("")
+        vbox.addWidget(self.lb)
+
+        self.tw = QTableWidget()
+        vbox.addWidget(self.tw)
+
+        self.label_ts = QLabel("Enter the timestamp column indice")
+        vbox.addWidget(self.label_ts)
+
+        self.le_ts = QLineEdit()
+        vbox.addWidget(self.le_ts)
+
+        self.label_xy = QLabel("Enter the column indices of the coordinates (x, y) separated by comma (,)")
+        vbox.addWidget(self.label_xy)
+
+        self.le_xy = QLineEdit()
+        vbox.addWidget(self.le_xy)
+
+        hbox2 = QHBoxLayout()
+
+        self.pbCancel = QPushButton("Cancel")
+        self.pbCancel.clicked.connect(self.reject)
+        hbox2.addWidget(self.pbCancel)
+
+        self.pbOK = QPushButton("OK")
+        self.pbOK.clicked.connect(self.accept)
+        hbox2.addWidget(self.pbOK)
+
+        vbox.addLayout(hbox2)
+
+        self.setLayout(vbox)
+
+        self.resize(540, 640)
+
+
 class View_explore_project_results(QWidget):
     """
     widget for visualizing results of explore project

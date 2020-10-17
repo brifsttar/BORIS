@@ -145,8 +145,8 @@ DATA_PLOT_FIELDS = {
 }
 OVERLAY_DATA_FIELDS = {
     OVERLAY_DATA_FILEPATH_IDX: "file_path",
-    OVERLAY_DATA_TIMESTAMP_COLUMN_IDX: "timestamp_colum",
-    OVERLAY_DATA_COORDINATES_COLUMN_IDX: "coords_colum",
+    OVERLAY_DATA_TIMESTAMP_COLUMN_IDX: "timestamp_column",
+    OVERLAY_DATA_COORDINATES_COLUMN_IDX: "coords_column",
     OVERLAY_DATA_COLOR_IDX: "color",
 }
 DATA_PLOT_STYLES = ["b-", "r-", "g-", "bo", "ro", "go"]

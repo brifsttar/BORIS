@@ -343,6 +343,10 @@ class MainWindow(QMainWindow, Ui_MainWindow):
     plot_data = {}
     ext_data_timer_list = []
 
+    overlay_ts = []
+    overlay_xy = []
+    ext_overlay_data_timer_list = []
+
     projectFileName = ""
     mediaTotalLength = None
 
@@ -3924,6 +3928,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         # update data plot
         for idx in self.plot_data:
             self.timer_plot_data_out(self.plot_data[idx])
+        self.timer_draw_overlay()
 
 
         self.FFmpegGlobalFrame = requiredFrame
@@ -3995,6 +4000,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         """
         draw point on frame-by-frame image
         """
+        if self.dw_player[n_player].frame_viewer.pixmap() is None:
+            return
         RADIUS = 6
         painter = QPainter()
         painter.begin(self.dw_player[n_player].frame_viewer.pixmap())
@@ -4434,6 +4441,41 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.waveform.show()
             self.timer_sound_signal.start()
 
+        # external overlay data
+        if OVERLAY_DATA in self.pj[OBSERVATIONS][self.observationId] and self.pj[OBSERVATIONS][self.observationId][OVERLAY_DATA]:
+            self.overlay_ts = []
+            self.overlay_xy = []
+            self.ext_overlay_data_timer_list = []
+            for idx in self.pj[OBSERVATIONS][self.observationId][OVERLAY_DATA]:
+                overlay_file_path = project_functions.media_full_path(
+                    self.pj[OBSERVATIONS][self.observationId][OVERLAY_DATA][idx]["file_path"],
+                    self.projectFileName)
+                if not overlay_file_path:
+                    QMessageBox.critical(
+                        self, programName,
+                        "Overlay file not found:\n{}".format(
+                            self.pj[OBSERVATIONS][self.observationId][OVERLAY_DATA][idx]["file_path"]))
+                    return False
+
+                result, error_msg, ts = txt2np_array(
+                    overlay_file_path,
+                    self.pj[OBSERVATIONS][self.observationId][OVERLAY_DATA][idx]["timestamp_column"],
+                    "False"
+                )  # txt2np_array defined in utilities.py
+                result, error_msg, xy = txt2np_array(
+                    overlay_file_path,
+                    self.pj[OBSERVATIONS][self.observationId][OVERLAY_DATA][idx]["coords_column"],
+                    "False"
+                )  # txt2np_array defined in utilities.py
+
+                self.overlay_ts = ts
+                self.overlay_xy = xy
+                self.ext_overlay_data_timer_list.append(QTimer())
+                self.ext_overlay_data_timer_list[-1].setInterval(10)
+                self.ext_overlay_data_timer_list[-1].timeout.connect(self.timer_draw_overlay)
+
+                # self.overlay_data.append(w1)
+
         # external data plot
         if PLOT_DATA in self.pj[OBSERVATIONS][self.observationId] and self.pj[OBSERVATIONS][self.observationId][PLOT_DATA]:
 
@@ -4563,6 +4605,15 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         triggered by timers in self.ext_data_timer_list
         """
         w.update_plot(self.getLaps())
+
+
+    def timer_draw_overlay(self):
+        """
+        update overlay
+        """
+        idx = np.abs(self.overlay_ts - float(self.getLaps())).argmin()
+        x, y = self.overlay_xy[idx]
+        self.draw_point(x, y, "red")
 
 
     def signal_from_widget(self, event):
@@ -5197,6 +5248,11 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 x.stop()
         except Exception:
             pass
+        try:
+            for x in self.ext_overlay_data_timer_list:
+                x.stop()
+        except Exception:
+            pass
 
         try:
             for pd in self.plot_data:
@@ -5353,6 +5409,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     x.stop()
                 for pd in self.plot_data:
                     self.plot_data[pd].close_plot()
+            for x in self.ext_overlay_data_timer_list:
+                x.stop()
 
             self.close_tool_windows()
 
@@ -9545,6 +9603,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                     # stop all timer for plotting data
                     for data_timer in self.ext_data_timer_list:
                         data_timer.stop()
+                    for data_timer in self.ext_overlay_data_timer_list:
+                        data_timer.stop()
 
                     self.actionPlay.setIcon(QIcon(":/play"))
 
@@ -11483,6 +11543,8 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                 # start all timer for plotting data
                 for data_timer in self.ext_data_timer_list:
                     data_timer.start()
+                for data_timer in self.ext_overlay_data_timer_list:
+                    data_timer.start()
 
                 self.actionPlay.setIcon(QIcon(":/pause"))
                 return True
@@ -11510,6 +11572,9 @@ class MainWindow(QMainWindow, Ui_MainWindow):
                             for data_timer in self.ext_data_timer_list:
                                 data_timer.stop()
 
+                            for data_timer in self.ext_overlay_data_timer_list:
+                                data_timer.stop()
+
                             player.mediaListPlayer.pause()
                             # wait until video is paused or ended
                             while True:
@@ -11522,7 +11587,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
             self.timer_sound_signal_out()
             for idx in self.plot_data:
                 self.timer_plot_data_out(self.plot_data[idx])
-
+            self.timer_draw_overlay()
             self.actionPlay.setIcon(QIcon(":/play"))
 
 
@@ -11622,6 +11687,7 @@ class MainWindow(QMainWindow, Ui_MainWindow):
         self.timer_sound_signal_out()
         for idx in self.plot_data:
             self.timer_plot_data_out(self.plot_data[idx])
+        self.timer_draw_overlay()
 
 
     def reset_activated(self):
